@@ -30,3 +30,5 @@
 *.exe
 *.out
 *.app
+/proiect_opengl/x64/Debug
+/.vs
