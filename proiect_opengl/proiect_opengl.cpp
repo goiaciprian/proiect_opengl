@@ -1,48 +1,32 @@
 #include <iostream>
 //#include <Windows.h>
 
-#include <GL/glut.h>
 #include "GameEngine.h"
 #include "Utils.h"
 #include "TrapPlatformModel.h"
+#include "NormalPlatform.h"
 #include <vector>
 
-constexpr auto WIDTH = 600;
-constexpr auto HEIGHT = 600;
-
-constexpr auto TITLE = "Proiect OpenGL";
-
-std::vector<pg::GlPoint> playerModel {
-	pg::GlPoint {-0.06f, -0.06f},
-	pg::GlPoint {0.06f, -0.06f},
-	pg::GlPoint {0.06f, 0.06f},
-	pg::GlPoint {-0.06f, 0.06f}
-} ;
-
-std::vector<pg::GlPoint> trapPlatformModel {
-	pg::GlPoint { 0.6f, 0.2f},
-	pg::GlPoint { 0.4f, 0.2f},
-	pg::GlPoint { 0.4f, 0.4f},
-	pg::GlPoint { 0.6f, 0.4f},
-
-};
+#include "Configuration.h"
 
 
 auto main(int argc, char** argv) -> int
 {
-	auto *model = new pg::PlayerModel(&playerModel, new pg::Position2D());
-	auto *trapPlatform = new pg::TrapPlatformModel(&trapPlatformModel, new pg::Position2D());
+	auto *danutz = new pg::PlayerModel(&configuration::Configuration::playerModel, &configuration::Configuration::renderPlayerTexture, new pg::Position2D());
+	auto *trapPlatform = new pg::TrapPlatformModel(&configuration::Configuration::trapPlatformModel, new pg::Position2D());
+	auto *normalPlatform = new pg::NormalPlatform(&configuration::Configuration::normalPlatformModel, new pg::Position2D());
 
-	auto* engine = pg::GameEngine::instantiateEngine(model);
+	auto* engine = pg::GameEngine::instantiateEngine(danutz);
 
 	engine->enemies->push_back(trapPlatform);
+	engine->enemies->push_back(normalPlatform);
 
-	pg::GameEngine::init(argc, argv, TITLE, WIDTH, HEIGHT);
+	pg::GameEngine::init(argc, argv, configuration::Configuration::TITLE, configuration::Configuration::WIDTH, configuration::Configuration::HEIGHT);
 	pg::GameEngine::renderFunc();
 
 	delete pg::GameEngine::getCurrentEngine();
 	delete trapPlatform;
-	delete model;
+	delete danutz;
 	return 0;
 }
 

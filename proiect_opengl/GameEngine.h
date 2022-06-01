@@ -8,19 +8,26 @@
 #include "EndScreenDeath.h"
 #include <vector>
 #include <map>
+#include <string>
+#include <chrono>
+
+#include "Configuration.h"
 
 namespace pg
 {
 	class GameEngine
 	{
-		const static int FPS = 1000/120;
+		static int scor, currentCombo;
+		static bool isCombo;
 		static int window_id;
 		static GameEngine *currentEngine;
 		static EndScreenDeath* finalScreen;
+		std::chrono::system_clock::time_point currentTime = std::chrono::system_clock::now();
 
 		PlayerModel *player = nullptr;
 		bool keyPressed[256] = {false};
 		game_state::GameState _gameState;
+		int previousNumber = 0;
 
 		void handleKeyboard(unsigned char, int, int);
 		void handleKeyboardUp(unsigned char, int, int);
@@ -37,7 +44,10 @@ namespace pg
 		
 		GameEngine(PlayerModel*);
 	public:
+		static unsigned long long delay;
+
 		static std::map<game_texture::GameTexture, GLuint>* textures;
+		static std::map<game_texture::Sprites, std::vector<GLuint>>* sprites;
 		static GLuint texture_id;
 		std::vector<EntityModel*>* enemies = new std::vector<EntityModel*>();
 		
@@ -52,8 +62,12 @@ namespace pg
 		static auto getCurrentEngine() -> GameEngine*;
 
 		static auto loadTexture(game_texture::GameTexture, const char*) -> void;
+		static auto loadPNG(game_texture::Sprites, const std::string, int) -> void;
+		static auto loadPNG (game_texture::GameTexture textureName, const std::string filename) -> void;
 
 		auto getPlayer() const -> PlayerModel*;
+
+		auto updateEntities() -> void;
 	};
 }
 

@@ -7,4 +7,9 @@ namespace pg
 		this->setEntityToOrigin();
 	}
 
+	game_entity::GameEntity TrapPlatformModel::getType()
+	{
+		return game_entity::GameEntity::ROCK;
+	}
+
 }

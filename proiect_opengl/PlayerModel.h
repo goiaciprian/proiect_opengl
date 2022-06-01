@@ -10,9 +10,11 @@ namespace pg
 {
 	class PlayerModel: public EntityModel
 	{
+		using EntityModel::_renderTexture;
 		using EntityModel::initEntity;
 		using EntityModel::_alteredPosition;
-		bool startJumpBool = false, startFalling = false, onPlatform = false;
+		bool startJumpBool = false, onPlatform = false;
+		EntityModel *standingOn = nullptr;
 		Position2D positionBeforeJump;
 		
 	public:
@@ -23,20 +25,29 @@ namespace pg
 		using EntityModel::setEntityToOrigin;
 		using EntityModel::operator[];
 
+		bool canSetScore = false;
+
 		void handleEndCondition() override;
+		game_entity::GameEntity getType() override;
 		void jump();
 		void startJump();
 		void fall();
+		void fall(GLfloat);
 		auto standingOnPlatform(EntityModel*) -> void;
 
 		bool isInAir()
 		{
-			return this-> startFalling || startJumpBool;
+			return  (startJumpBool && !onPlatform);
+ 		}
+
+		bool isOnPlatform()
+		{
+			return onPlatform;
 		}
 
-		PlayerModel(std::vector<GlPoint>* points, Position2D* pos)
+		PlayerModel(std::vector<GlPoint>* points, std::vector<GlPoint>* textures,  Position2D* pos)
 		{
-			this->initEntity(points, pos);
+			this->initEntity(points, textures, pos);
 			this->setColor(1.0f, 0.0f, 0.0f);
 		}
 	};

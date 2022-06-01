@@ -1,7 +1,11 @@
 ﻿#include "GameEngine.h"
+#include "TrapPlatformModel.h"
+#include "NormalPlatform.h"
 
 #include <algorithm>
 #include <iostream>
+#include <string>
+
 
 namespace pg
 {
@@ -62,6 +66,7 @@ namespace pg
 		
 		renderBackgroundImage();
 
+		
 		if(currentEngine->_gameState == game_state::GameState::PLAYING) 
 		{
 			this->getPlayer()->renderEntity();
@@ -70,9 +75,26 @@ namespace pg
 			for(auto enemy: *enemies)
 				enemy->renderEntity();
 
+			glRasterPos2f(-0.9f, 0.9f);
+			for(const char ch : "Scor: " + std::to_string(GameEngine::scor))
+			{
+				glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, ch);
+			}
+
+			glRasterPos2f(-0.9f, 0.8f);
+			for(const char ch : "Combo: " + std::to_string(GameEngine::currentCombo))
+			{
+				glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, ch);
+			}
+
+			this->getCurrentEngine()->updateEntities();
 		}
 		glFlush();
+
+		glLineWidth(1.0f);
+
 		glutSwapBuffers();
+
 	}
 
 	void GameEngine::reshape(int w, int h)
@@ -127,48 +149,108 @@ namespace pg
 	{
 		//renderBackgroundImage();
 
-		if(getCurrentEngine()->_gameState == game_state::GameState::PLAYING) 
+		//this->getPlayer()->setRunSpeed(0.0105f);
+
+		auto _engine = this->getCurrentEngine();
+		auto _player = this->getPlayer();
+
+		if(_engine->_gameState == game_state::GameState::PLAYING) 
 		{
-			this->getCurrentEngine()->movePlayer();
+			_engine->movePlayer();
 
 			for(auto enemy: *enemies)
 			{
 				enemy->moveDown(0.002f);
 				if((*enemy)[finalScreen])
 				{
-					std::cout<<"enemy should respawn" << std::endl;
 					enemy->handleEndCondition();
+					
+					if(enemy->getType() == game_entity::GameEntity::FRUIT) {
+						GameEngine::scor -= 100;
+						isCombo = false;
+						currentCombo = 0;
+					}
 				}
-				if((*getPlayer())[enemy])
+				if((*player)[enemy])
 				{
-					getPlayer()->handleEndCondition();
+					if(enemy->getType() == game_entity::GameEntity::FRUIT)
+					{
+						scor += 1 + currentCombo;
+						if(currentCombo < configuration::Configuration::MAX_COMBO)
+							currentCombo++;
+						if(currentCombo > 1)
+							isCombo = true;
+						enemy->handleEndCondition();
+						//std::cout << scor << " " << isCombo << " " << currentCombo << std::endl;
+					}else 
+					{
+						_player->handleEndCondition();
+						scor /= 2;
+						isCombo = false;
+						currentCombo = 0;
+					}
+				} else 
+				{
+					_player->setAirSpeed(0.015f);
 				}
-				if((*getPlayer())[finalScreen]) 
+				if((*_player)[finalScreen]) 
 				{
-					std::cout << "should be safe" << std::endl;
-					getPlayer()->standingOnPlatform(finalScreen);
+					_player->handleEndCondition();
 				}
 			}
 		}
 		
 
 		glutPostRedisplay();
-		glutTimerFunc(FPS, GameEngine::timerFunc, x);
+		glutTimerFunc(configuration::Configuration::FPS, GameEngine::timerFunc, x);
 	}
 
 	void GameEngine::movePlayer()
 	{
-		this->getPlayer()->jump();
-		this->getPlayer()->fall();
+		auto _player = getPlayer();
+		_player->jump();
+		_player->fall();
 
-		if(keyPressed[100])
-			this->getPlayer()->moveRight();
-		if(keyPressed[97])
-			this->getPlayer()->moveLeft();
-		if(keyPressed[32] && !getPlayer()->isInAir()) 
-			this->getPlayer()->startJump();
+		_player->currentPlayerAnimation = game_texture::Sprites::KNIGHT_IDLE;
+		_player->movingDirection = 0;
+
+		if(keyPressed[100]) {
+			_player->currentPlayerAnimation = game_texture::Sprites::KNIGHT_WALK;
+			_player->moveRight();
+			_player->movingDirection = 1;
+		}
+		if(keyPressed[97]) {
+			_player->currentPlayerAnimation = game_texture::Sprites::KNIGHT_WALK;
+			_player->moveLeft();
+			_player->movingDirection = -1;
+		}
+		if(keyPressed[32] && !(_player->isInAir())) 
+			_player->startJump();
 	}
 
+	auto GameEngine::updateEntities() -> void
+	{
+		auto time = std::chrono::system_clock::now();
+		auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(time - currentTime).count();
+		
+		if(elapsed > 2 && enemies->size() < 12)
+		{
+			currentTime = time;
+			int number = 0;
+			do {
+				number = pg::randomGeneratorInt(1, 3);
+			} while (number == previousNumber);
+			previousNumber = number;
+			std::vector<GlPoint> *position;
+			if(number == 1) position = &configuration::Configuration::normalPlatformModel;
+			else if (number == 2) position = &configuration::Configuration::trapPlatformModel;
+			else position = &configuration::Configuration::position2;
 
-
+			auto shouldBe = randomGenerateEntity();
+			if(shouldBe == game_entity::GameEntity::FRUIT)
+				enemies->push_back(new NormalPlatform(position, new pg::Position2D()));
+			else 
+				enemies->push_back(new TrapPlatformModel(position, new pg::Position2D()));
+		}
+	}
 }

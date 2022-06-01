@@ -1,8 +1,10 @@
 ﻿#include "Utils.h"
+#include <GL/glut.h>
 #include <fstream>
 #include <array>
 #include <iostream>
 #include <cassert>
+#include <random>
 
 namespace pg
 {
@@ -125,6 +127,8 @@ namespace pg
 		};
 	}
 
+	
+
 	Image* loadImage(const char* filename)
 	{
 		std::ifstream input;
@@ -193,4 +197,29 @@ namespace pg
 		input.close();
 		return new Image(pixels2.release(), width, height);
 	}
+
+	int pg::randomGeneratorInt(int min, int max)
+	{
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_int_distribution<> distr(min, max);
+
+		return distr(gen);
+	}
+
+	double pg::randomGeneratorDouble(double min, double max)
+	{
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_real_distribution<> distr(min, max);
+
+		return distr(gen);
+	}
+
+	game_entity::GameEntity pg::randomGenerateEntity()
+	{
+		auto number = randomGeneratorInt(0, 101);
+		return number <= 29 ? game_entity::GameEntity::ROCK : game_entity::GameEntity::FRUIT; 
+	}
+
 }

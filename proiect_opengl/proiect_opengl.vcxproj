@@ -142,24 +142,48 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Configuration.cpp" />
     <ClCompile Include="EntityModel.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameEngineStatic.cpp" />
+    <ClCompile Include="picopng.cpp" />
     <ClCompile Include="PlayerModel.cpp" />
     <ClCompile Include="proiect_opengl.cpp" />
     <ClCompile Include="TrapPlatformModel.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Configuration.h" />
     <ClInclude Include="EndScreenDeath.h" />
     <ClInclude Include="EntityModel.h" />
     <ClInclude Include="GameEngine.h" />
+    <ClInclude Include="NormalPlatform.h" />
+    <ClInclude Include="picopng.h" />
     <ClInclude Include="TrapPlatformModel.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="PlayerModel.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="bmp.bmp" />
+    <Image Include="dog2.bmp" />
+    <Image Include="Knight\Idle\idle1.png" />
+    <Image Include="Knight\Idle\idle10.png" />
+    <Image Include="Knight\Idle\idle11.png" />
+    <Image Include="Knight\Idle\idle12.png" />
+    <Image Include="Knight\Idle\idle2.png" />
+    <Image Include="Knight\Idle\idle3.png" />
+    <Image Include="Knight\Idle\idle4.png" />
+    <Image Include="Knight\Idle\idle5.png" />
+    <Image Include="Knight\Idle\idle6.png" />
+    <Image Include="Knight\Idle\idle7.png" />
+    <Image Include="Knight\Idle\idle8.png" />
+    <Image Include="Knight\Idle\idle9.png" />
+    <Image Include="Knight\Walk\walk1.png" />
+    <Image Include="Knight\Walk\walk2.png" />
+    <Image Include="Knight\Walk\walk3.png" />
+    <Image Include="Knight\Walk\walk4.png" />
+    <Image Include="Knight\Walk\walk5.png" />
+    <Image Include="Knight\Walk\walk6.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
