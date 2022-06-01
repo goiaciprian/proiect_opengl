@@ -11,10 +11,10 @@ namespace
 {
 	std::vector<pg::GlPoint> points
 	{
-		pg::GlPoint { -1.0f, -0.99f},
-		pg::GlPoint { 1.0f, -0.99f},
-		pg::GlPoint { 1.0f, -1.2f},
-		pg::GlPoint { -1.0f, -1.2f}
+		pg::GlPoint { -2.0f, -0.99f},
+		pg::GlPoint { 2.0f, -0.99f},
+		pg::GlPoint { 2.0f, -1.2f},
+		pg::GlPoint { -2.0f, -1.2f}
 	};
 
 	pg::Position2D position { 0, 0};
@@ -31,6 +31,10 @@ namespace pg
 		}
 
 		void handleEndCondition() override {};
+		game_entity::GameEntity getType() override 
+		{
+			return game_entity::GameEntity::BOTTOM_SCREEN;
+		};
 	};
 }
 

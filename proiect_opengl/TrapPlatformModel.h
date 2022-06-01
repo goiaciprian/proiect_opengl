@@ -19,11 +19,11 @@ namespace pg
 		using EntityModel::operator[];
 
 		void handleEndCondition() override;
+		game_entity::GameEntity getType() override;
 
 		TrapPlatformModel(std::vector<GlPoint>* model, Position2D* pos)
 		{
 			this->initEntity(model, pos);
-			this -> setRunSpeed(0.3f);
 			this->setColor(0.0f, 1.0f, 0.0f);
 		}
 	};

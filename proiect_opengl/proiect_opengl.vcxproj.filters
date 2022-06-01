@@ -36,6 +36,12 @@
     <ClCompile Include="Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="picopng.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Configuration.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine.h">
@@ -56,9 +62,75 @@
     <ClInclude Include="EndScreenDeath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NormalPlatform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="picopng.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Configuration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="bmp.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="dog2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Knight\Idle\idle1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Knight\Idle\idle2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Knight\Idle\idle3.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Knight\Idle\idle4.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Knight\Idle\idle5.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Knight\Idle\idle6.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Knight\Idle\idle7.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Knight\Idle\idle8.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Knight\Idle\idle9.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Knight\Idle\idle10.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Knight\Idle\idle11.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Knight\Idle\idle12.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Knight\Walk\walk1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Knight\Walk\walk2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Knight\Walk\walk3.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Knight\Walk\walk4.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Knight\Walk\walk5.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Knight\Walk\walk6.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
